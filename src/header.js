@@ -1,101 +1,21 @@
 import React from 'react';
-import './App.css';
-// import CenteredGrid from './test';
-import Avatar from '@material-ui/core/Avatar';
-
-import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
+import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
-import { fade } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import Content from './content';
-import TableComponent from './invoices'
-import ReceiptIcon from '@material-ui/icons/Receipt';
-import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
-
-const drawerWidth = 300;
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: '300px',
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  // menuButton: {
-  //   marginRight: 36,
-  // },
-  hide: {
-    display: 'none',
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-  },
-  drawerOpen: {
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  drawerClose: {
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    overflowX: 'hidden',
-    width: theme.spacing(7) + 1,
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9) + 1,
-    },
-  },
-  toolbar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-    backgroundColor: theme.palette.background.paper
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-  },
-  // toolbar style
   grow: {
     flexGrow: 1,
   },
@@ -110,21 +30,18 @@ const useStyles = makeStyles((theme) => ({
   },
   search: {
     position: 'relative',
-    borderRadius: '20px',
+    borderRadius: theme.shape.borderRadius,
     backgroundColor: fade(theme.palette.common.white, 0.15),
     '&:hover': {
       backgroundColor: fade(theme.palette.common.white, 0.25),
     },
-    // marginRight: theme.spacing(50),
-    // paddingLeft: '500px',
-    // right: 0,
-    // width: '600px',
+    marginRight: theme.spacing(2),
+    marginLeft: 0,
+    width: '100%',
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(3),
       width: 'auto',
     },
-    border: '2px solid purple',
-    // borderRadius
   },
   searchIcon: {
     padding: theme.spacing(0, 2),
@@ -162,20 +79,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const App = () => {
+export default function Header() {
   const classes = useStyles();
-  const theme = useTheme();
-  const [open, setOpen] = React.useState(true);
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
-
-  // Toolbar 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -257,33 +162,26 @@ const App = () => {
   );
 
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <AppBar
-        position="fixed"
-        // className={clsx(classes.appBar, {
-        //   [classes.appBarShift]: open,
-        // })}
-        className={classes.appBar}
-      >
+    <div className={classes.grow}>
+      <AppBar position="static">
         <Toolbar>
-          <Typography variant="h4" noWrap>
-            MONET
-          </Typography>
-          <Typography variant="p" noWrap style={{
-            marginLeft: '20px',
-            paddingTop: '12px',
-            fontWeight: 'bold',
-            marginRight: '520px'
-          }}>
-            Invoice Verification Platform
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="open drawer"
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography className={classes.title} variant="h6" noWrap>
+            Material-UI
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
             <InputBase
-              placeholder="Search e.g paid invoice"
+              placeholder="Search…"
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
@@ -291,7 +189,18 @@ const App = () => {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
+          <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
+            <IconButton aria-label="show 4 new mails" color="inherit">
+              <Badge badgeContent={4} color="secondary">
+                <MailIcon />
+              </Badge>
+            </IconButton>
+            <IconButton aria-label="show 17 new notifications" color="inherit">
+              <Badge badgeContent={17} color="secondary">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
             <IconButton
               edge="end"
               aria-label="account of current user"
@@ -300,18 +209,8 @@ const App = () => {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <Avatar>H</Avatar>
+              <AccountCircle />
             </IconButton>
-            <div style={{
-              paddingTop: '14px',
-              paddingLeft: '9px'
-            }}>
-              Debtor Company
-              <br />
-              <span style={{ fontSize: '11px' }}>
-                View Profile
-              </span>
-            </div>
           </div>
           <div className={classes.sectionMobile}>
             <IconButton
@@ -328,54 +227,6 @@ const App = () => {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
-      <Drawer
-        variant="permanent"
-        className={clsx(classes.drawer, {
-          [classes.drawerOpen]: open,
-          [classes.drawerClose]: !open,
-        })}
-        classes={{
-          paper: clsx({
-            [classes.drawerOpen]: open,
-            [classes.drawerClose]: !open,
-          }),
-        }}
-      >
-        <div className={classes.toolbar}>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton>
-        </div>
-        <List>
-          <ListItem button key={0}>
-            <ListItemIcon>
-              <ReceiptIcon color="white" />
-            </ListItemIcon>
-            <ListItemText primary={"Invoice Verification"} />
-          </ListItem>
-          <ListItem button key={1}
-            style={{
-              backgroundColor: 'lightPurple',
-              borderTopRightRadius: '50px',
-              borderBottomRightRadius: '50px',
-              color: 'white'
-            }}
-          >
-            <ListItemIcon>
-              <QuestionAnswerIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Support"} />
-          </ListItem>
-        </List>
-      </Drawer>
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
-        <Content />
-        <TableComponent />
-      </main>
     </div>
   );
 }
-
-
-export default App;
